@@ -1,6 +1,16 @@
 vmagent:
   enabled: true
 
+  spec:
+    datasource:
+      url: "http://vmsingle.monitoring.svc.cluster.local:8428"
+    remoteWrite:
+      url: "http://vmsingle.monitoring.svc.cluster.local:8429"
+    remoteRead:
+      url: "http://vmsingle.monitoring.svc.cluster.local:8429"
+    externalLabels:
+      cluster: {{ cluster.handle }}
+
   additionalRemoteWrites:
   - url: '{{ contexts["plrl/cloud/observability"].vmetrics.url }}'
     basicAuth:
@@ -10,10 +20,6 @@ vmagent:
       password:
         name: vm-auth
         key: password
-
-  spec:
-    externalLabels:
-      cluster: {{ cluster.handle }}
 
 prometheus-operator-crds:
   enabled: true
